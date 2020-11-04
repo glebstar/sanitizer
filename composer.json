@@ -1,0 +1,21 @@
+{
+    "name": "glebstar/sanitizer",
+    "description": "Php7 package for json data validation",
+    "keywords": ["php7", "sanitizer"],
+    "license": "MIT",
+    "authors": [{
+        "name": "Gleb Starkov",
+        "email": "glebstarkov@gmail.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Glebstar\\Sanitizer\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}
