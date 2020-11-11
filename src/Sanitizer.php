@@ -31,7 +31,18 @@ class Sanitizer
             if (isset($data[$key])) {
                 if (isset($this->availableFilters[$filter])) {
                     $f = new $this->availableFilters[$filter]();
-                    $data[$key] = $f->apply($data[$key]);
+                    if (is_array($data[$key])) {
+                        for($i=0; $i<count($data[$key]); $i++) {
+                            $data[$key][$i] = $f->apply($data[$key][$i]);
+                            if (is_array($data[$key][$i])) {
+                                // из фильтра пришла ошибка.
+                                $data[$key] = $data[$key][$i];
+                                break;
+                            }
+                        }
+                    } else {
+                        $data[$key] = $f->apply($data[$key]);
+                    }
                 } else {
                     return ['error' => ['system' => "Not available filter {$key}."]];
                 }

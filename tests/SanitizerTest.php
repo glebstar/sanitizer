@@ -53,5 +53,29 @@ class SanitizerTest extends TestCase
 
         $this->assertTrue('Parameter is not a int.' === $errors['error']['foo']);
         $this->assertTrue('Parameter is not a phone.' === $errors['error']['baz']);
+
+        $filters = ['foo' => 'integer'];
+        $data = [
+            'foo' => [
+                '123',
+                '224',
+                '455',
+            ],
+        ];
+
+        $data = $s->sanitize($filters, json_encode($data));
+        $this->assertTrue(123 === $data['foo'][0]);
+        $this->assertTrue(455 === $data['foo'][2]);
+
+        $data = [
+            'foo' => [
+                '123',
+                '224',
+                '455abc',
+            ],
+        ];
+
+        $errors = $s->sanitize($filters, json_encode($data));
+        $this->assertArrayHasKey('error', $errors);
     }
 }
